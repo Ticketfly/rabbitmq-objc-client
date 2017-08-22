@@ -375,9 +375,9 @@ NSInteger const RMQChannelLimit = 65535;
 # pragma mark - Private
 
 - (NSArray *)closeOperations {
-    return @[^{[self closeAllUserChannels];},
-              ^{[self sendFrameset:[[RMQFrameset alloc] initWithChannelNumber:@0 method:self.amqClose]];},
-              ^{[self.channelZero blockingWaitOn:[RMQConnectionCloseOk class]];},
+    return @[//^{[self closeAllUserChannels];},
+             //^{[self sendFrameset:[[RMQFrameset alloc] initWithChannelNumber:@0 method:self.amqClose]];},
+             //^{[self.channelZero blockingWaitOn:[RMQConnectionCloseOk class]];},
               ^{[self.heartbeatSender stop];},
               ^{
                   self.transport.delegate = nil;
@@ -387,7 +387,7 @@ NSInteger const RMQChannelLimit = 65535;
 
 - (void)closeAllUserChannels {
     for (id<RMQChannel> ch in self.userChannels.allValues) {
-        [ch blockingClose];
+        [ch close];
     }
 }
 
